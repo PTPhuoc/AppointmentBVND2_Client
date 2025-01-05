@@ -1,0 +1,23 @@
+[
+    { "nation": "Việt Nam", "id": 1 },
+    { "nation": "Hoa Kỳ", "id": 2 },
+    { "nation": "Nhật Bản", "id": 3 },
+    { "nation": "Hàn Quốc", "id": 4 },
+    { "nation": "Trung Quốc", "id": 5 },
+    { "nation": "Ấn Độ", "id": 6 },
+    { "nation": "Anh", "id": 7 },
+    { "nation": "Pháp", "id": 8 },
+    { "nation": "Đức", "id": 9 },
+    { "nation": "Ý", "id": 10 },
+    { "nation": "Canada", "id": 11 },
+    { "nation": "Nga", "id": 12 },
+    { "nation": "Brazil", "id": 13 },
+    { "nation": "Úc", "id": 14 },
+    { "nation": "Singapore", "id": 15 },
+    { "nation": "Thái Lan", "id": 16 },
+    { "nation": "Malaysia", "id": 17 },
+    { "nation": "Indonesia", "id": 18 },
+    { "nation": "Philippines", "id": 19 },
+    { "nation": "Mexico", "id": 20 }
+  ]
+  

@@ -1,0 +1,22 @@
+[
+  { "city": "TP. Hồ Chí Minh", "cityCode": 1 },
+  { "city": "Cần Thơ", "cityCode": 2 },
+  { "city": "Bà Rịa - Vũng Tàu", "cityCode": 3 },
+  { "city": "Bạc Liêu", "cityCode": 4 },
+  { "city": "Bến Tre", "cityCode": 5 },
+  { "city": "Bình Dương", "cityCode": 6 },
+  { "city": "Bình Phước", "cityCode": 7 },
+  { "city": "Đồng Nai", "cityCode": 8 },
+  { "city": "Đồng Tháp", "cityCode": 9 },
+  { "city": "Hậu Giang", "cityCode": 10 },
+  { "city": "Kiên Giang", "cityCode": 11 },
+  { "city": "Long An", "cityCode": 12 },
+  { "city": "Ninh Thuận", "cityCode": 13 },
+  { "city": "Tây Ninh", "cityCode": 14 },
+  { "city": "Tiền Giang", "cityCode": 15 },
+  { "city": "Trà Vinh", "cityCode": 16 },
+  { "city": "Vĩnh Long", "cityCode": 17 },
+  { "city": "An Giang", "cityCode": 18 },
+  { "city": "Cà Mau", "cityCode": 19 },
+  { "city": "Sóc Trăng", "cityCode": 20 }
+]

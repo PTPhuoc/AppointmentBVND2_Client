@@ -1,0 +1,82 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Fira Sans Condensed", sans-serif;
+  font-weight: 400;
+  font-size: 20px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.hidden-scrollbar::-webkit-scrollbar {
+  display: none; /* Ẩn thanh cuộn trong các trình duyệt dựa trên WebKit */
+}
+
+.scrollbarList::-webkit-scrollbar{
+  width: 5px;
+}
+
+.scrollbarList::-webkit-scrollbar-track {
+  background: white; 
+}
+ 
+/* Handle */
+.scrollbarList::-webkit-scrollbar-thumb {
+  background: #00BA4B; 
+  border-radius: 15px;
+}
+
+/* Handle on hover */
+.scrollbarList::-webkit-scrollbar-thumb:hover {
+  background: #005121; 
+}
+
+.loader {
+  width: 150px;
+  height: 150px;
+  display: inline-block;
+  position: relative;
+}
+.loader::after,
+.loader::before {
+  content: "";
+  box-sizing: border-box;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: 5px solid #00ba4b;
+  position: absolute;
+  left: 0;
+  top: 0;
+  animation: animloader 2s linear infinite;
+}
+.loader::after {
+  animation-delay: 1s;
+}
+
+@keyframes animloader {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
