@@ -40,11 +40,18 @@ export default function SignIn() {
   };
 
   useEffect(() => {
+    handleUser.setNotification({
+      ...handleUser.notification,
+      isOpen: false,
+      for: "",
+      handle: "pending"
+    });
     if (isSignIn) {
       setTimeout(() => {
         setIsSignIn(false);
       }, 5000);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSignIn]);
 
   return (

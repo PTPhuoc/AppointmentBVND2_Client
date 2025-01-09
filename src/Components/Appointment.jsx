@@ -18,7 +18,11 @@ import {
   setAppointmentValue,
   covertTime,
 } from "../Functions/HandleAppointment";
-import { patientObject, setPatientValue } from "../Functions/HandlePatien";
+import {
+  patientObject,
+  setPatientValue,
+  searchPatientByName,
+} from "../Functions/HandlePatien";
 import { genderList } from "../Functions/HandleRegisterNumber";
 import Ethnicity from "../Json/Ethnicity.json";
 import CityList from "../Json/Citys.json";
@@ -48,6 +52,7 @@ export default function Appointment() {
   const [listService, setListService] = useState([]);
   const [listEmployee, setListEmployee] = useState([]);
   const [listAppointment, setListAppointment] = useState([]);
+  const [listPatient, setListPatient] = useState([]);
   const [appointmentInfor, setAppointmentInfor] = useState({
     search: "",
     id: "",
@@ -158,6 +163,22 @@ export default function Appointment() {
           setListService(rs.data.Services);
         } else {
           setListService([]);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const getPatient = () => {
+    axios
+      .get(process.env.REACT_APP_API_URL + "/patient/all-patient")
+      .then((rs) => {
+        if (rs.data.Status === "Success") {
+          setListPatient(rs.data.Patients);
+          console.log(rs.data.Patients);
+        } else {
+          setListPatient([]);
         }
       })
       .catch((err) => {
@@ -400,21 +421,44 @@ export default function Appointment() {
   };
 
   useEffect(() => {
-    getServices();
-    getEmployee();
-    if (window.localStorage.getItem("CurrentData")) {
-      const patientLocalStorage = JSON.parse(
-        window.localStorage.getItem("CurrentData")
-      );
-      if (patientLocalStorage.patient.name !== patient.name) {
+    if (window.localStorage.getItem("Name")) {
+      if (!currentContext.Account.id) {
         currentContext.setNotification({
           ...currentContext.notification,
           isOpen: true,
-          for: "GetOldData",
-          content: "Dùng thông tin của " + patientLocalStorage.patient.name,
-          option: "YorN",
+          for: "RePageMain",
+          content: "Thực hiện đăng nhập để tiếp tục",
+          option: "N",
         });
+        navigate("/signin");
+      } else {
+        getServices();
+        getEmployee();
+        getPatient();
+        if (window.localStorage.getItem("CurrentData")) {
+          const patientLocalStorage = JSON.parse(
+            window.localStorage.getItem("CurrentData")
+          );
+          if (patientLocalStorage.patient.name !== patient.name) {
+            currentContext.setNotification({
+              ...currentContext.notification,
+              isOpen: true,
+              for: "GetOldData",
+              content: "Dùng thông tin của " + patientLocalStorage.patient.name,
+              option: "YorN",
+            });
+          }
+        }
       }
+    } else {
+      currentContext.setNotification({
+        ...currentContext.notification,
+        isOpen: true,
+        for: "RePageMain",
+        content: "Thực hiện đăng nhập để tiếp tục",
+        option: "N",
+      });
+      navigate("/signin");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -515,27 +559,73 @@ export default function Appointment() {
             <p className="text-[#005121] text-[25px]">THÔNG TIN</p>
           </div>
           <div className="w-1/3 h-1 bg-[#00BA4B]"></div>
-          <InputDefault
-            key={1}
-            className={"relative w-[80%]"}
-            lable={"Tên bệnh nhân"}
-            name={"name"}
-            type={"text"}
-            inputRefs={inputRefs}
-            object={patient}
-            keyLogic={"focusName"}
-            handleObject={handleInputPatient}
-            handleRef={focusInput}
-            logic={isFocusInput}
-            handleLogic={setIsFocusInput}
-            objectLogic={appointmentLogic}
-            inputRequire={requireInput.name}
-            lableRequire={requireInput.labelName}
-          />
+          <div className="relative w-[80%] z-[9]">
+            <input
+              name="name"
+              ref={(el) => (inputRefs.current["name"] = el)}
+              value={patient.name}
+              onFocus={() => {
+                setIsFocusInput({ ...appointmentLogic, focusName: true });
+              }}
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
+              onChange={handleInputPatient}
+              className={
+                "w-full outline-none pl-5 py-2 border-2 rounded-lg duration-200 ease-linear " +
+                (requireInput.name ? "border-red-400" : "border-[#005121]")
+              }
+              type="text"
+            />
+            {requireInput.name && (
+              <div className="absolute top-0 right-0 mr-3 -translate-y-4 bg-red-500 text-white px-1 rounded-md">
+                <p className="text-[15px]">{requireInput.labelName}</p>
+              </div>
+            )}
+            <div
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsFocusInput({ ...appointmentLogic, focusName: true });
+                focusInput("name");
+              }}
+              className={`absolute top-0 left-0 h-full flex items-center ml-4 duration-200 ease-linear cursor-pointer ${
+                patient.name || isFocusInput.focusName
+                  ? "-translate-y-6 text-sm text-[#005121]"
+                  : "text-gray-400"
+              }`}
+            >
+              <p className="bg-white px-1">Tên bệnh nhân</p>
+            </div>
+            <div
+              className={
+                "absolute -z-[1] -translate-y-5 w-full overflow-auto bg-slate-300 flex flex-col gap-1 border-2 border-[#005121] hidden-scrollbar rounded-lg duration-200 ease-in-out " +
+                (isFocusInput.focusName ? "max-h-[150px] pt-5" : "max-h-0")
+              }
+            >
+              {searchPatientByName(listPatient, patient.name).length > 0 ? (
+                searchPatientByName(listPatient, patient.name).map((el) => (
+                  <div className="w-full">
+                    <button
+                      onClick={() => {
+                        setPatient(setPatientValue(el));
+                      }}
+                      className="bg-white w-full py-2 text-[#005121] duration-200 ease-linear hover:bg-[#00BA4B] hover:text-white"
+                    >
+                      {el.Name + " - " + el.RelativesPhone}
+                    </button>
+                  </div>
+                ))
+              ) : (
+                <div className="bg-white w-full py-2 text-[#005121] duration-200 ease-linear ">
+                  <p className="w-full text-center">Trống</p>
+                </div>
+              )}
+            </div>
+          </div>
           <InputDate
             key={2}
             className={
-              "relative z-[9] flex items-center w-[80%] border-2 rounded-lg px-5 py-2 " +
+              "relative z-[8] flex items-center w-[80%] border-2 rounded-lg px-5 py-2 " +
               (requireInput.birth ? "border-red-400" : "border-[#005121]")
             }
             lable={"Ngày sinh"}
@@ -551,7 +641,7 @@ export default function Appointment() {
           />
           <InputList
             key={3}
-            className={"relative w-[80%] z-[8]"}
+            className={"relative w-[80%] z-[7]"}
             inputRefs={inputRefs}
             lable={"Giới tính"}
             handleRef={focusInput}
@@ -584,7 +674,7 @@ export default function Appointment() {
             lableRequire={requireInput.labelAge}
           />
           <InputList
-            className={"relative w-[80%] z-[7]"}
+            className={"relative w-[80%] z-[6]"}
             lable={"Dân tộc"}
             inputRefs={inputRefs}
             handleRef={focusInput}
@@ -600,7 +690,7 @@ export default function Appointment() {
             lableRequire={requireInput.labelEthnicity}
           />
 
-          <div className="relative w-[80%] z-[6]">
+          <div className="relative w-[80%] z-[5]">
             <input
               ref={(el) => (inputRefs.current["location"] = el)}
               name="location"
@@ -728,7 +818,7 @@ export default function Appointment() {
             lableRequire={requireInput.labelCodeLocation}
           />
           <InputList
-            className={"relative w-[80%] z-[5]"}
+            className={"relative w-[80%] z-[4]"}
             lable={"Tình trạng hôn nhân"}
             inputRefs={inputRefs}
             handleRef={focusInput}
@@ -744,7 +834,7 @@ export default function Appointment() {
             lableRequire={requireInput.labelMarital}
           />
           <InputList
-            className={"relative w-[80%] z-[4]"}
+            className={"relative w-[80%] z-[3]"}
             lable={"Đối tượng"}
             inputRefs={inputRefs}
             handleRef={focusInput}
@@ -760,7 +850,7 @@ export default function Appointment() {
             lableRequire={requireInput.labelObject}
           />
           <InputList
-            className={"relative w-[80%] z-[3]"}
+            className={"relative w-[80%] z-[2]"}
             lable={"Nghề nghiệp"}
             inputRefs={inputRefs}
             handleRef={focusInput}
@@ -776,7 +866,7 @@ export default function Appointment() {
             lableRequire={requireInput.labelJob}
           />
           <InputList
-            className={"relative w-[80%] z-[2]"}
+            className={"relative w-[80%] z-[1]"}
             lable={"Quốc tịch"}
             inputRefs={inputRefs}
             handleRef={focusInput}
@@ -1296,13 +1386,28 @@ export default function Appointment() {
         </div>
         <div className="flex w-full justify-center py-3 gap-10">
           <div>
-            <p>Chưa đăng ký: {listAppointment.filter(item => item.State === "Chưa đăng ký").length}</p>
+            <p>
+              Chưa đăng ký:{" "}
+              {
+                listAppointment.filter((item) => item.State === "Chưa đăng ký")
+                  .length
+              }
+            </p>
           </div>
           <div>
-            <p>Đã đăng ký:  {listAppointment.filter(item => item.State === "Đã đăng ký").length}</p>
+            <p>
+              Đã đăng ký:{" "}
+              {
+                listAppointment.filter((item) => item.State === "Đã đăng ký")
+                  .length
+              }
+            </p>
           </div>
           <div>
-            <p>Đã hủy:  {listAppointment.filter(item => item.State === "Đã hủy").length}</p>
+            <p>
+              Đã hủy:{" "}
+              {listAppointment.filter((item) => item.State === "Đã hủy").length}
+            </p>
           </div>
         </div>
         <div className="w-1/2 h-1 bg-[#00BA4B]"></div>
@@ -1517,14 +1622,14 @@ export default function Appointment() {
                     {el.Patient.RelativesPhone}
                   </div>
                   <div className="w-[15%] py-3 text-center border-r-2 border-black">
-                    {el.Service? el.Service.Name: "Chưa chọn"}
+                    {el.Service ? el.Service.Name : "Chưa chọn"}
                   </div>
                   <div className="w-[15%] py-3 text-center border-r-2 border-black">
-                    {el.Doctor? el.Doctor: "Chưa chọn"}
+                    {el.Doctor ? el.Doctor : "Chưa chọn"}
                   </div>
                   <div className="w-[15%] py-3 text-center border-r-2 border-black">
                     {formatDate(el.Date) +
-                      (el.Time? " - " + covertTime(el.Time) : "")}
+                      (el.Time ? " - " + covertTime(el.Time) : "")}
                   </div>
                   <div className="w-[10%] py-3 text-center border-r-2 border-white">
                     {el.State}

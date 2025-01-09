@@ -57,3 +57,18 @@ export const setPatientValue = (patient) => {
     relativesPhone: patient.RelativesPhone,
   };
 };
+
+export const searchPatientByName = (list, value) => {
+  if (value) {
+    const searchObject = list.filter((item) =>
+      item.Name.toLowerCase().includes(value.toLowerCase())
+    );
+    if (searchObject.length > 0) {
+      return searchObject;
+    } else {
+      return [];
+    }
+  } else {
+    return list;
+  }
+};

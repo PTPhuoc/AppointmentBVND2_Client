@@ -15,6 +15,7 @@ import { getWeek, isSameDay } from "date-fns";
 import Loader from "./Loader";
 import ObjectDoctorRoom from "./ObjectDoctorRoom";
 import { userContext } from "../Context/User";
+import { useNavigate } from "react-router-dom";
 
 export default function Schedule() {
   const currentContext = useContext(userContext);
@@ -305,7 +306,39 @@ export default function Schedule() {
       });
   };
 
+  const navigate = useNavigate();
+
   useEffect(() => {
+    if (window.localStorage.getItem("Name")) {
+      if (!currentContext.Account.id) {
+        currentContext.setNotification({
+          ...currentContext.notification,
+          isOpen: true,
+          for: "RePageMain",
+          content: "Thực hiện đăng nhập để tiếp tục",
+          option: "N",
+        });
+        navigate("/signin");
+      } else {
+        currentContext.setNotification({
+          ...currentContext.notification,
+          isOpen: false,
+          handle: "pending",
+        });
+        getRoom();
+        getShift();
+        getDocTor();
+      }
+    } else {
+      currentContext.setNotification({
+        ...currentContext.notification,
+        isOpen: true,
+        for: "RePageMain",
+        content: "Thực hiện đăng nhập để tiếp tục",
+        option: "N",
+      });
+      navigate("/signin");
+    }
     currentContext.setNotification({
       ...currentContext.notification,
       isOpen: false,
@@ -343,10 +376,7 @@ export default function Schedule() {
     }, 1000);
     return () => clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    schedule.date,
-    currentContext.windowWarning.handle,
-  ]);
+  }, [schedule.date, currentContext.windowWarning.handle]);
 
   useEffect(() => {
     if (currentContext.windowWarning.handle === "Success") {

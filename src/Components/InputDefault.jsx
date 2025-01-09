@@ -47,7 +47,7 @@ export default function InputDefault({
         <p className="bg-white px-1">{lable}</p>
       </div>
       {inputRequire && (
-        <div className="absolute top-0 right-0 mr-3 -translate-y-4 bg-red-500 text-white px-1  rounded-md">
+        <div className="absolute top-0 right-0 mr-3 -translate-y-4 bg-red-500 text-white px-1 rounded-md">
           <p className="text-[15px]">{lableRequire}</p>
         </div>
       )}

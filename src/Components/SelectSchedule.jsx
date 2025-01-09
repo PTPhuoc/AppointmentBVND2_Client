@@ -47,16 +47,16 @@ export default function SelectSchedule() {
       .then((rs) => {
         if (rs.data.Status === "Success") {
           const listServices = listDoctorRoom
-          .map((item1) => {
-            const filterService = rs.data.Services.filter(
-              (item2) => item2.DepartmentId === item1.Room.Department.Id
+            .map((item1) => {
+              const filterService = rs.data.Services.filter(
+                (item2) => item2.DepartmentId === item1.Room.Department.Id
+              );
+              return filterService;
+            })
+            .filter(
+              (item, index, self) =>
+                self.findIndex((obj) => obj.Id === item.Id) === index
             );
-            return filterService;
-          })
-          .filter(
-            (item, index, self) =>
-              self.findIndex((obj) => obj.Id === item.Id) === index
-          );
           setListService(listServices.flat());
         } else {
           setListService([]);
@@ -238,30 +238,54 @@ export default function SelectSchedule() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectSchedule.date]);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
-    if (window.localStorage.getItem("CurrentData")) {
-      const currentData = JSON.parse(
-        window.localStorage.getItem("CurrentData")
-      );
-      setSelectSchedule({
-        ...selectSchedule,
-        id: currentData.appointment.id,
-        date: currentData.appointment.date,
-        name: currentData.patient.name,
-        patientId: currentData.patient.id,
-        service: currentData.appointment.serviceName,
-        serviceId: currentData.appointment.serviceId,
-        departmentId: currentData.appointment.departmentId,
-        doctor: currentData.appointment.doctor,
-        doctorId: currentData.appointment.doctorId,
+    if (window.localStorage.getItem("Name")) {
+      if (!currentContext.Account.id) {
+        currentContext.setNotification({
+          ...currentContext.notification,
+          isOpen: true,
+          for: "RePageMain",
+          content: "Thực hiện đăng nhập để tiếp tục",
+          option: "N",
+        });
+        navigate("/signin");
+      } else {
+        if (window.localStorage.getItem("CurrentData")) {
+          const currentData = JSON.parse(
+            window.localStorage.getItem("CurrentData")
+          );
+          setSelectSchedule({
+            ...selectSchedule,
+            id: currentData.appointment.id,
+            date: currentData.appointment.date,
+            name: currentData.patient.name,
+            patientId: currentData.patient.id,
+            service: currentData.appointment.serviceName,
+            serviceId: currentData.appointment.serviceId,
+            departmentId: currentData.appointment.departmentId,
+            doctor: currentData.appointment.doctor,
+            doctorId: currentData.appointment.doctorId,
+          });
+        }
+        currentContext.setNotification({
+          ...currentContext.notification,
+          isOpen: false,
+          handle: "pending",
+        });
+        getConsulation();
+      }
+    } else {
+      currentContext.setNotification({
+        ...currentContext.notification,
+        isOpen: true,
+        for: "RePageMain",
+        content: "Thực hiện đăng nhập để tiếp tục",
+        option: "N",
       });
+      navigate("/signin");
     }
-    currentContext.setNotification({
-      ...currentContext.notification,
-      isOpen: false,
-      handle: "pending",
-    });
-    getConsulation();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -285,30 +309,30 @@ export default function SelectSchedule() {
   useEffect(() => {
     const timer = setTimeout(() => {
       if (listDoctorRoom.length > 0) {
-      const listRooms = listDoctorRoom
-        .map((item) => {
-          return { Name: item.Room.Name, Id: item.Room.Id };
-        })
-        .filter(
-          (item, index, self) =>
-            self.findIndex((obj) => obj.Id === item.Id) === index
-        );
-      const listDoctors = listDoctorRoom
-        .map((item) => {
-          return { Name: item.Employee.Name, Id: item.Employee.Id };
-        })
-        .filter(
-          (item, index, self) =>
-            self.findIndex((obj) => obj.Id === item.Id) === index
-        );
+        const listRooms = listDoctorRoom
+          .map((item) => {
+            return { Name: item.Room.Name, Id: item.Room.Id };
+          })
+          .filter(
+            (item, index, self) =>
+              self.findIndex((obj) => obj.Id === item.Id) === index
+          );
+        const listDoctors = listDoctorRoom
+          .map((item) => {
+            return { Name: item.Employee.Name, Id: item.Employee.Id };
+          })
+          .filter(
+            (item, index, self) =>
+              self.findIndex((obj) => obj.Id === item.Id) === index
+          );
 
-      setListDoctor(listDoctors);
-      setListRoom(listRooms);
-      getServices()
-    }
-    }, 500)
-    return () => clearTimeout(timer)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+        setListDoctor(listDoctors);
+        setListRoom(listRooms);
+        getServices();
+      }
+    }, 500);
+    return () => clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [listDoctorRoom]);
 
   return (

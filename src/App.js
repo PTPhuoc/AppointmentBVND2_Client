@@ -30,7 +30,11 @@ function App() {
         </div>
       )}
       {currentContext.notification.isOpen && <Notification />}
-      <>{currentPath.pathname !== "/signin" && <NavTool />}</>
+      <>
+        {currentPath.pathname !== "/signin" && currentContext.Account.id && (
+          <NavTool />
+        )}
+      </>
       <div
         className={
           "w-full h-full " +
