@@ -1,5 +1,5 @@
 import React from "react";
-import { handleList } from "../Functions/HandleSchedule";
+import { handleList } from "../Functions/HandleSelectList";
 
 export default function InputListSearch({
   className,

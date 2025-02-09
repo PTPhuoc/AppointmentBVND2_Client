@@ -15,13 +15,17 @@ export default function User({ element }) {
     content: "",
     isOpen: false,
     handle: "pending",
-    option: "YorN"
+    option: "YorN",
   });
   const [windowWarning, setWindowWarning] = useState({
     for: "",
     content: "",
     isOpen: false,
     handle: "pending",
+  });
+
+  const [pendingPage, setPendingPage] = useState({
+    getAccount: "pending",
   });
 
   const dehash = (value) => {
@@ -42,16 +46,21 @@ export default function User({ element }) {
         })
         .then((rs) => {
           if (rs.data.Status === "Success") {
-            setAccount(rs.data.Account);
+            setAccount({ ...rs.data.Account });
+          } else if (rs.data.Status === "Server Error") {
+            setAccount({ id: "", name: "", role: "" });
+            console.log(rs.data.Message);
           } else {
             setAccount({ id: "", name: "", role: "" });
           }
+          setPendingPage({ ...pendingPage, getAccount: "Success" });
         })
         .catch((err) => {
           console.log(err);
         });
     } else {
       setAccount({ id: "", name: "", role: "" });
+      setPendingPage({ ...pendingPage, getAccount: "Success" });
     }
   };
 
@@ -72,6 +81,8 @@ export default function User({ element }) {
         setNotification,
         windowWarning,
         setWindowWarning,
+        pendingPage,
+        setPendingPage,
       }}
     >
       {element}

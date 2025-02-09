@@ -12,7 +12,6 @@ export const patientObject = {
   age: 0,
   ethnicity: "",
   nation: "",
-  job: "",
   location: {
     city: "",
     cityCode: 0,
@@ -21,15 +20,31 @@ export const patientObject = {
     ward: "",
     wardCode: 0,
   },
-  codeLocation: "",
-  marital: "",
+  typeRelatives: "",
   relatives: "",
   relativesPhone: 0,
 };
 
+export const listGender = [
+  { gender: "Nam", id: 1 },
+  { gender: "Nữ", id: 2 },
+];
+
+export const objectPatientOption = [
+  { object: "Thu phí ", id: 1 },
+  { object: "Bảo hiểm y tế", id: 2 },
+  { object: "Bảo hiểm bảo lãnh", id: 3 },
+  { object: "BHYT + BHBL", id: 4 },
+];
+
+export const objectRelatives = [
+  { relatives: "Ba", id: 1 },
+  { relatives: "Mẹ", id: 2 },
+];
+
 export const setPatientValue = (patient) => {
   const patientBirth = new Date(patient.Birth);
-  const patientLocation = patient.Location.split(",");
+  const patientLocation = patient.Location.split(", ");
   return {
     id: patient.Id,
     name: patient.Name,
@@ -42,7 +57,6 @@ export const setPatientValue = (patient) => {
     age: patient.Age,
     ethnicity: patient.Ethnicity,
     nation: patient.Nation,
-    job: patient.Job,
     location: {
       city: patientLocation[0],
       cityCode: 0,
@@ -51,8 +65,7 @@ export const setPatientValue = (patient) => {
       ward: patientLocation[2],
       wardCode: 0,
     },
-    codeLocation: patient.CodeLocation,
-    marital: patient.Marital,
+    typeRelatives: patient.TypeRelatives,
     relatives: patient.Relatives,
     relativesPhone: patient.RelativesPhone,
   };
@@ -71,4 +84,5 @@ export const searchPatientByName = (list, value) => {
   } else {
     return list;
   }
-};
+}
+

@@ -59,7 +59,7 @@ export default function NavTool() {
         </div>
         <div>
           <Link
-            to="/schedule"
+            to="/schedule-doctor"
             onClick={() => {
               setIsOpen(false);
             }}

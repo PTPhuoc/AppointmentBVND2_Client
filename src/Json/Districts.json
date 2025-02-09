@@ -1,5 +1,5 @@
 [
-  { "district": "Thành phố Thủ Đức", "districtCode": 1, "cityCode": 1, "note": "Hợp nhất từ Quận 2, Quận 9, và Quận Thủ Đức" },
+  { "district": "Thành phố Thủ Đức", "districtCode": 1, "cityCode": 1 },
   { "district": "Quận 1", "districtCode": 2, "cityCode": 1 },
   { "district": "Quận 3", "districtCode": 3, "cityCode": 1 },
   { "district": "Quận 4", "districtCode": 4, "cityCode": 1 },

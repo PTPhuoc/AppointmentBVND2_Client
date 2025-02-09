@@ -4,24 +4,31 @@ import RegisterNumber from "./Components/RegisterNumber";
 import Navbar from "./Components/Navbar";
 import ListNumber from "./Components/ListNumber";
 import NavTool from "./Components/NavTool";
-import Appointment from "./Components/Appointment";
 import SignIn from "./Components/SignIn";
 import { userContext } from "./Context/User";
 import { useContext } from "react";
 import Notification from "./Components/Notification";
-import Schedule from "./Components/Schedule";
 import WindowWarning from "./Components/WindowWarning";
-import SelectSchedule from "./Components/SelectSchedule";
+import ScheduleDoctor from "./Components/ScheduleDoctor";
+import RegisterAppointment from "./Components/RegisterAppointment";
+import SelectAppointment from "./Components/SelectAppointment";
+import Loader from "./Components/Loader";
 
 function App() {
   const currentPath = useLocation();
   const currentContext = useContext(userContext);
   return (
     <>
-      {currentPath.pathname !== "/signin" && (
-        <div className="fixed w-full z-20">
-          <Navbar />
+      {currentContext.pendingPage.getAccount === "pending" ? (
+        <div className="fixed z-20 flex w-full h-full justify-center items-center bg-[rgba(255,255,255,0.7)]">
+          <Loader />
         </div>
+      ) : (
+        currentPath.pathname !== "/signin" && (
+          <div className="fixed w-full z-20">
+            <Navbar />
+          </div>
+        )
       )}
 
       {currentContext.windowWarning.isOpen && (
@@ -45,10 +52,10 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/registernumber" element={<RegisterNumber />} />
           <Route path="/listnumber" element={<ListNumber />} />
-          <Route path="/appointment" element={<Appointment />} />
+          <Route path="/appointment" element={<RegisterAppointment />} />
           <Route path="/signin" element={<SignIn />} />
-          <Route path="/schedule" element={<Schedule />} />
-          <Route path="/select-schedule" element={<SelectSchedule />} />
+          <Route path="/select-appointment" element={<SelectAppointment />} />
+          <Route path="/schedule-doctor" element={<ScheduleDoctor />} />
         </Routes>
       </div>
     </>
