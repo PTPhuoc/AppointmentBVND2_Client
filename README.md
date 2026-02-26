@@ -48,6 +48,7 @@ Search & Filter - Find appointments by date, doctor, or patient name
 |React Hooks|Managing component logic and side effects|
 |Create React App|Project bootstrapping and build tool|
 ## Project Structure
+```
 AppointmentBVND2_Client/
 ├── public/                 # Static assets
 ├── src/
@@ -75,6 +76,7 @@ AppointmentBVND2_Client/
 ├── .env.example            # Environment variables template
 ├── package.json            # Dependencies and scripts
 └── README.md               # Project documentation
+```
 
 # Getting Started with Create React App
 
