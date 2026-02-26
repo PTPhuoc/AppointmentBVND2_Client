@@ -7,64 +7,74 @@ A modern, responsive web application for hospital appointment management. This f
 
 ## Table of Contents
 Features
-
 Tech Stack
-
 Project Structure
-
 Installation
-
 Usage
-
 Screenshots
-
 API Integration
-
 Contributing
-
 License
-
 Contact
-
 ## Features
 ### For Patients
 User Authentication - Secure sign up and login
-
 Appointment Booking - Browse available doctors and schedule appointments
-
 Appointment History - View past and upcoming appointments
-
 Profile Management - Update personal information
-
 ### For Doctors
 Schedule Management - Create and manage working hours
-
 Appointment Overview - View daily/weekly appointment lists
-
 Patient Information - Access patient details for each appointment
-
 Availability Toggle - Set availability status for different time slots
-
 ### For Nurses/Coordinators
 Patient Registration - Register new patients and book appointments on their behalf
-
 Doctor Schedule Administration - Create and modify doctor schedules
-
 Appointment Coordination - View and manage all appointments across departments
-
 Department Overview - Monitor different departments and rooms
-
 ### General Features
 Role-Based Access Control - Different views and permissions for each user type
-
 Responsive Design - Works seamlessly on desktop, tablet, and mobile
-
 Real-time Updates - Live appointment status updates
-
 Search & Filter - Find appointments by date, doctor, or patient name
-
-
-
+## Tech Stack
+|Technology|Purpose|
+|----------|-------|
+|Reach 18|Frontend library for building user interfaces|
+|React Router DOM|Navigation and routing|
+|Tailwind CSS|Utility-first CSS framework for styling|
+|Axios|HTTP client for API requests|
+|Context API|State management|
+|React Hooks|Managing component logic and side effects|
+|Create React App|Project bootstrapping and build tool|
+## Project Structure
+AppointmentBVND2_Client/
+├── public/                 # Static assets
+├── src/
+│   ├── components/         # Reusable UI components
+│   │   ├── auth/           # Login/Signup components
+│   │   ├── layout/         # Header, Footer, Sidebar
+│   │   ├── appointments/   # Appointment-related components
+│   │   ├── schedules/      # Schedule management components
+│   │   └── common/         # Buttons, Modals, Forms
+│   ├── pages/              # Main application pages
+│   │   ├── PatientPage/    # Patient dashboard
+│   │   ├── DoctorPage/     # Doctor dashboard
+│   │   ├── NursePage/      # Nurse dashboard
+│   │   ├── LoginPage/      # Authentication page
+│   │   └── RegisterPage/   # New user registration
+│   ├── services/           # API calls and business logic
+│   │   ├── api.js          # Axios configuration
+│   │   ├── authService.js  # Authentication methods
+│   │   ├── appointmentService.js # Appointment API calls
+│   │   └── scheduleService.js # Schedule API calls
+│   ├── contexts/           # React Context providers
+│   ├── hooks/              # Custom React hooks
+│   ├── utils/              # Helper functions
+│   └── App.js              # Main application component
+├── .env.example            # Environment variables template
+├── package.json            # Dependencies and scripts
+└── README.md               # Project documentation
 
 # Getting Started with Create React App
 
