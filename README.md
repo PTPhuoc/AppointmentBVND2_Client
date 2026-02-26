@@ -1,3 +1,71 @@
+#BVND2 Hospital Appointment System - Frontend
+https://img.shields.io/badge/React-18.2.0-blue
+https://img.shields.io/badge/Tailwind-3.4.0-38B2AC
+https://img.shields.io/badge/Node-18.x-green
+
+A modern, responsive web application for hospital appointment management. This frontend client serves as the user interface for patients, doctors, and nurses to manage appointments and schedules efficiently. Built during a 2-month internship, this project demonstrates full-stack development capabilities with a focus on user experience and real-world business logic.
+
+##Table of Contents
+Features
+
+Tech Stack
+
+Project Structure
+
+Installation
+
+Usage
+
+Screenshots
+
+API Integration
+
+Contributing
+
+License
+
+Contact
+
+##Features
+###For Patients
+User Authentication - Secure sign up and login
+
+Appointment Booking - Browse available doctors and schedule appointments
+
+Appointment History - View past and upcoming appointments
+
+Profile Management - Update personal information
+
+###For Doctors
+Schedule Management - Create and manage working hours
+
+Appointment Overview - View daily/weekly appointment lists
+
+Patient Information - Access patient details for each appointment
+
+Availability Toggle - Set availability status for different time slots
+
+###For Nurses/Coordinators
+Patient Registration - Register new patients and book appointments on their behalf
+
+Doctor Schedule Administration - Create and modify doctor schedules
+
+Appointment Coordination - View and manage all appointments across departments
+
+Department Overview - Monitor different departments and rooms
+
+###General Features
+Role-Based Access Control - Different views and permissions for each user type
+
+Responsive Design - Works seamlessly on desktop, tablet, and mobile
+
+Real-time Updates - Live appointment status updates
+
+Search & Filter - Find appointments by date, doctor, or patient name
+
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
